@@ -34,7 +34,7 @@ using System.BitConverter.
 
 block-level on error undo, throw.
 
-class Business.Library.ImageProcessor: 
+class ImageProcessor: 
   def var FileData as memptr no-undo.
   def var Ext as char no-undo.
   def var Img as Image no-undo.
