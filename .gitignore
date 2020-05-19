@@ -1,0 +1,25 @@
+# Ignore temporary directories
+.scannerwork
+.sonarlint
+.dbconnection
+.project
+.propath
+.settings
+.gradle
+.vs
+node_modules
+package-lock.json
+gradle.properties
+
+# Ignore windows thumbnail db
+Thumbs.db
+
+# Ignore log files
+*.log
+results.xml
+
+# Ignore build directory
+build/*
+
+/build/
+
