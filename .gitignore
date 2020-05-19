@@ -2,9 +2,6 @@
 .scannerwork
 .sonarlint
 .dbconnection
-.project
-.propath
-.settings
 .gradle
 .vs
 node_modules
