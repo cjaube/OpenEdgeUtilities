@@ -1,11 +1,11 @@
 
  /*------------------------------------------------------------------------
     File        : ImageProcessor
-    Purpose     : 
+    Purpose     : Process and manipulate image data using the .NET Image class.
     Syntax      : 
-    Description : Process and manipulate image data using the .NET Image class.
-    Author(s)   : CurtisJA
-    Created     : Wed Dec 04 14:22:48 EST 2019
+    Description : 
+    Author(s)   : Curtis Aube
+    Created     : Wed Dec 04 2019
     Notes       : 
   ----------------------------------------------------------------------*/
 
