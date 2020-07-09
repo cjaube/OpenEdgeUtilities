@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <propath version="12.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="schema/propath.xsd">
-<propathentry env="all" kind="dir" path="@{ROOT}\source" platform="All"/>
+<propathentry env="all" kind="src" path="@{ROOT}\source" platform="All"/>
 <propathentry env="all" kind="src" path="@{ROOT}\tests" platform="All"/>
-<propathentry env="all" kind="src" path="@{ROOT}" platform="All"/>
 <propathentry env="all" kind="dir" path="@{WORK}" platform="All"/>
 <propathentry env="gui" kind="lib" path="@{DLC}\gui\ablunit.pl" platform="All"/>
 <propathentry env="tty" kind="lib" path="@{DLC}\tty\ablunit.pl" platform="All"/>
