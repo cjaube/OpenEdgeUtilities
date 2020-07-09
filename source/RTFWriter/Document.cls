@@ -15,7 +15,7 @@ using OpenEdge.Core.Collections.*.
 
 block-level on error undo, throw.
 
-class RTFWriter.Document: 
+class RTFWriter.Document inherits BaseGroup: 
   /** The document character set. */
   define public property CharacterSet as char init "ansi" no-undo public get. public set.
   /** The document language code. Defaulted to U.S. English. */
@@ -28,30 +28,23 @@ class RTFWriter.Document:
   define public property WidowAndOrphansControl as log init no no-undo public get. public set.
   /** Automatically add hyphens. */
   define public property AutomaticHyphenation as log init no no-undo public get. public set.
-  /** Use real footnotes instead of endnotes */
-  define public property RealFootnotes as log init no no-undo public get. public set.
+  /** The top page margin in points */
+  define public property MarginTop as int init 72 no-undo public get. public set.
+  /** The bottom page margin in points */
+  define public property MarginBottom as int init 72 no-undo public get. public set.
+  /** The top page margin in points */
+  define public property MarginLeft as int init 90 no-undo public get. public set.
+  /** The top page margin in points */
+  define public property MarginRight as int init 90 no-undo public get. public set.
   
-  def var DocumentParts as List no-undo.
   def var Fonts as char no-undo.
   def var Colors as char no-undo.
+  def stream exp.
   
   constructor public Document():
-    DocumentParts = new List().
+    super().
   end constructor.
-  
-  /**
-   * Purpose: Add a new paragraph to the document
-   * @return the newly created pargarph
-   */
-  method public Paragraph AddParagraph():
-    def var par as Paragraph no-undo.
-    
-    par = new Paragraph().
-    DocumentParts:Add(par).
-    
-    return par.
-  end method.
-  
+
   /**
    * Purpose: Add a font to the document's font table
    * @param name The name of the font
@@ -76,29 +69,32 @@ class RTFWriter.Document:
     return num-entries(Colors) + 1. // Account for the default color
   end method.
   
+  method public void SaveToFile(rtfFilename as char):
+    output stream exp to value(rtfFilename).
+    put stream exp unformatted string(this-object:Output()).
+    output stream exp close.
+  end.
+  
   /**
-   * Purpose: Output the rtf text.
-   * @return the rtf text.
+   * Output the open text
    */
-  method public longchar Output():
-    def var outText as longchar no-undo.
-    def var partsIterator as IIterator no-undo.
-    def var part as IDocumentPart no-undo.
+  method protected override character OutputOpen():
+    def var outText as character no-undo.
     
     outText = outText + "~{" + OutputProlog() + OutputFontTable() + "~n".
     
     outText = outText + OutputColorTable().
     
     outText = outText + OutputPreliminaries().
-    
-    partsIterator = DocumentParts:Iterator().
-    do while partsIterator:HasNext():
-      part = cast(partsIterator:Next(), IDocumentPart).
-      outText = outText + part:Output().
-    end.
 
-    outText = outText + "}~n".
     return outText.
+  end method.
+  
+  /**
+   * Output the close text
+   */
+  method protected override character OutputClose():
+    return "}~n".
   end method.
   
   /**
@@ -169,8 +165,14 @@ class RTFWriter.Document:
       outText = outText + "\widowctrl ".
     if AutomaticHyphenation then
       outText = outText + "\hyphauto ".
-    if RealFootnotes then
-      outText = outText + "\ftnbj ".
+    if MarginTop <> 72 then
+      outText = outText + "\margt" + string(MarginTop * 20) + " ".
+    if MarginBottom <> 72 then
+      outText = outText + "\margb" + string(MarginBottom * 20) + " ".
+    if MarginLeft <> 80 then
+      outText = outText + "\margl" + string(MarginLeft * 20) + " ".
+    if MarginRight <> 80 then
+      outText = outText + "\margr" + string(MarginRight * 20) + " ".
     outText = outText + "~n".
     
     return outText.

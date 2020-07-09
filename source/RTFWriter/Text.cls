@@ -16,14 +16,14 @@ block-level on error undo, throw.
 
 class RTFWriter.Text implements IDocumentPart: 
   
-  define public property Content as char no-undo public get. public set.
+  define public property Content as longchar no-undo public get. public set.
   
-  constructor public Text(content as char):
+  constructor public Text(content as longchar):
     this-object:Content = content.
   end constructor.
 
-  method public character Output(  ):
-    def var outText as char no-undo.
+  method public longchar Output(  ):
+    def var outText as longchar no-undo.
     outText = Content.
     outText = replace(outText, "\", "\\").
     outText = replace(outText, "~{", "\~{").
@@ -31,5 +31,27 @@ class RTFWriter.Text implements IDocumentPart:
     
     return outText.
   end method.
+  /*
+  method public longchar Output(  ):
+    def var outText as longchar init "" no-undo.
+    def var i as int no-undo.
+    def var singleChar as char no-undo.
+    def var unicodeValue as int no-undo.
+    
+    do i = 1 to length(Content):
+      assign
+        singleChar = substring(Content,i,1)
+        unicodeValue = asc(singleChar, "utf-8").
+      if lookup(singleChar, "~{}\") <> 0 then assign
+        outText = outText + "\" + singleChar.
+      else if unicodeValue > 127 then assign
+        outText = outText + "\u" + string(unicodeValue).
+      else assign
+        outText = outText + singleChar.
+    end.
+    
+    return outText.
+  end method.
+  */
 
 end class.

@@ -15,7 +15,7 @@ using OpenEdge.Core.Collections.*.
 
 block-level on error undo, throw.
 
-class RTFWriter.Group implements IDocumentPart: 
+class RTFWriter.Group inherits BaseGroup: 
   
   /** Reset any formatting to defaults */
   define public property ResetFormatting as log no-undo public get. public set.
@@ -34,49 +34,14 @@ class RTFWriter.Group implements IDocumentPart:
   define public property Smallcaps as log no-undo public get. public set.
   define public property Strikethrough as log no-undo public get. public set.
 
-  def var DocumentParts as List no-undo.
-
   constructor public Group():
-    DocumentParts = new List().
+    super().
   end constructor.
-  
-  /**
-   * Purpose: Add Text to this Group
-   * @return the new Text
-   */
-  method public Text AddText(content as char):
-    def var txt as Text no-undo.
-    
-    txt = new Text(content).
-    DocumentParts:Add(txt).
-    
-    return txt.
-  end method.
-  
-  /**
-   * Purpose: Add a Group to this Group
-   * @return the new Group
-   */
-  method public Group AddGroup():
-    def var grp as Group no-undo.
-    
-    grp = new Group().
-    DocumentParts:Add(grp).
-    
-    return grp.
-  end method.
-
-  /**
-   * Output the Group
-   */
-  method public character Output(  ):
-    return OutputOpen() + OutputCommands() + OutputParts() + OutputClose().
-  end method.
   
   /**
    * Output the RTF commands
    */
-  method protected character OutputCommands():
+  method protected override character OutputCommands():
     def var outText as char init "" no-undo.
     
     if ResetFormatting then assign
@@ -103,37 +68,6 @@ class RTFWriter.Group implements IDocumentPart:
       outText = outText + "\strike ".
     
     return outText.
-  end method.
-  
-  /**
-   * Output the parts withing this group
-   */
-  method protected character OutputParts():
-    def var outText as char no-undo.
-    def var partsIterator as IIterator no-undo.
-    def var part as IDocumentPart no-undo.
-
-    partsIterator = DocumentParts:Iterator().
-    do while partsIterator:HasNext():
-      part = cast(partsIterator:Next(), IDocumentPart).
-      outText = outText + part:Output().
-    end.
-
-    return outText.
-  end method.
-  
-  /**
-   * Output the open text
-   */
-  method protected character OutputOpen():
-    return "~{".
-  end method.
-  
-  /**
-   * Output the close text
-   */
-  method protected character OutputClose():
-    return "}".
   end method.
 
 end class.

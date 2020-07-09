@@ -12,5 +12,5 @@
 using Progress.Lang.*.
 
 interface RTFWriter.IDocumentPart:  
-  method public char Output().
+  method public longchar Output().
 end interface.
