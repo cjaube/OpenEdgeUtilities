@@ -22,12 +22,37 @@ class RTFWriter.RTFCell inherits RTFGroup:
   define public property VerticalAlign as char init "" no-undo public get. public set.
   /** The horizontal alignment of the cell: 'left', 'center', or 'right'. */
   define public property HorizontalAlign as char init "" no-undo public get. public set.
+  /** The cell border style: 'solid', 'dotted', 'dashed', or 'double'. */
+  define public property BorderStyle as char init "" no-undo public get. public set.
+  /** The cell border thickness measured in points. */
+  define public property BorderThickness as decimal init 1 no-undo public get. public set.
 
   /**
    * Output the cell declaration
    */
   method public char OutputDeclaration(cellx as decimal):
+    def var i as int no-undo.
     def var outText as char init "" no-undo.
+    if BorderStyle <> "" and BorderThickness > 0 then do:
+      if lookup(BorderStyle, "solid,dotted,dashed,double") = 0 then
+        undo, throw new Progress.Lang.AppError("Invalid value for BorderStyle. Must be 'solid', 'dotted', 'dashed', or 'double'.", 0).
+      else do:
+        do i = 1 to 4:
+          outText = outText + "\clbrdr" + entry(i, "t,l,b,r").
+          outText = outText + "\brdrw" + RTFDocument:PointsToTwips(BorderThickness).
+          case BorderStyle:
+            when "solid" then
+              outText = outText + '\brdrs'.
+            when "dotted" then
+              outText = outText + '\brdrdot'.
+            when "dashed" then
+              outText = outText + '\brdrdash'.
+            when "double" then
+              outText = outText + '\brdrdb'.
+          end case.
+        end.
+      end.
+    end.
     if VerticalAlign <> "" then do:
       if lookup(VerticalAlign, "top,middle,bottom") = 0 then
         undo, throw new Progress.Lang.AppError("Invalid value for VerticalAlign. Must be 'top', 'middle', or 'bottom'.", 0).
@@ -40,7 +65,7 @@ class RTFWriter.RTFCell inherits RTFGroup:
           outText = outText + '\clvertalb'.
       end case.
     end.
-    outText = outText + "\cellx" + RTFDocument:PointsToTwips(cellx) + " ".
+    outText = outText + "\cellx" + RTFDocument:PointsToTwips(cellx) + "~n".
     return outText.
   end method.
   

@@ -50,10 +50,12 @@ class RTFWriter.RTFRow implements IRTFDocumentPart:
     def var cell as RTFCell no-undo.
     def var cellx as int no-undo.
     
-    outText = "\trowd \trgaph" + RTFDocument:PointsToTwips(CellMargins) + "~n".
+    outText = "\trowd\trgaph" + RTFDocument:PointsToTwips(CellMargins).
     
     if XOffset > 0 then
-      outText = outText + "\trleft" + RTFDocument:PointsToTwips(XOffset) + " ".
+      outText = outText + "\trleft" + RTFDocument:PointsToTwips(XOffset).
+      
+    outText = outText + "~n".
     
     cellx = XOffset.
     cellIterator = Cells:Iterator().
@@ -62,8 +64,6 @@ class RTFWriter.RTFRow implements IRTFDocumentPart:
       cellx = cellx + cell:Width.
       outText = outText + cell:OutputDeclaration(cellx).
     end.
-    
-    outText = outText + "~n".
     
     cellIterator = Cells:Iterator().
     do while cellIterator:HasNext():

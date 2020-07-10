@@ -43,7 +43,7 @@ class TestRTFWriter:
     par = new RTFParagraph().
     par:AddText("This is a test").
     
-    Assert:Equals("~{\pard This is a test \par}~n", par:Output()). 
+    Assert:Equals("~{\pard This is a test\par}~n", par:Output()). 
   end method.
   
   @Test.
@@ -63,7 +63,7 @@ class TestRTFWriter:
     par:AddText(".").
     
     
-    Assert:Equals("~{\pard This is ~{\i a} ~{\b test}. \par}~n", par:Output()). 
+    Assert:Equals("~{\pard This is ~{\i a} ~{\b test}.\par}~n", par:Output()). 
   end method.
   
   @Test.
@@ -83,7 +83,7 @@ class TestRTFWriter:
     cel:Bold = yes.
     cel:AddText("Price").
     
-    Assert:Equals("\trowd \trgaph240~n\trleft1440 \cellx4320 \cellx5760 ~n\pard\intbl ~{\b Description}\cell~n\pard\intbl ~{\b Price}\cell~n\row~n", rw:Output()). 
+    Assert:Equals("\trowd\trgaph240\trleft1440~n\cellx4320~n\cellx5760~n\pard\intbl ~{\b Description}\cell~n\pard\intbl ~{\b Price}\cell~n\row~n", rw:Output()). 
   end method.
     
 end class.

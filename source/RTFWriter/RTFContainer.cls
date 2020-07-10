@@ -1,6 +1,6 @@
 
 /*------------------------------------------------------------------------
-    File        : RTFBaseGroup
+    File        : RTFContainer
     Purpose     : 
     Syntax      : 
     Description : 
@@ -13,11 +13,11 @@ using Progress.Lang.*.
 using RTFWriter.*.
 using OpenEdge.Core.Collections.*.
 
-class RTFWriter.RTFBaseGroup abstract implements IRTFDocumentPart:  
+class RTFWriter.RTFContainer abstract implements IRTFDocumentPart:  
   
   def var DocumentParts as List no-undo.
 
-  constructor public RTFBaseGroup():
+  constructor public RTFContainer():
     DocumentParts = new List().
   end constructor.
   
@@ -74,17 +74,10 @@ class RTFWriter.RTFBaseGroup abstract implements IRTFDocumentPart:
   end method.
 
   /**
-   * Output the Group
+   * Output the Container
    */
   method public longchar Output(  ):
-    return OutputOpen() + OutputCommands() + OutputParts() + OutputClose().
-  end method.
-  
-  /**
-   * Output the RTF commands
-   */
-  method protected character OutputCommands():
-    return "".
+    return OutputOpen() + OutputParts() + OutputClose().
   end method.
   
   /**
@@ -107,14 +100,10 @@ class RTFWriter.RTFBaseGroup abstract implements IRTFDocumentPart:
   /**
    * Output the open text
    */
-  method protected character OutputOpen():
-    return "~{".
-  end method.
+  method protected abstract character OutputOpen().
   
   /**
    * Output the close text
    */
-  method protected character OutputClose():
-    return "}".
-  end method.
+  method protected abstract character OutputClose().
 end class.

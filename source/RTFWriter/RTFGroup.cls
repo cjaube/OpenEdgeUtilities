@@ -15,7 +15,7 @@ using OpenEdge.Core.Collections.*.
 
 block-level on error undo, throw.
 
-class RTFWriter.RTFGroup inherits RTFBaseGroup: 
+class RTFWriter.RTFGroup inherits RTFContainer: 
   
   /** Reset any formatting to defaults */
   define public property ResetFormatting as log no-undo public get. public set.
@@ -35,35 +35,56 @@ class RTFWriter.RTFGroup inherits RTFBaseGroup:
   define public property Strikethrough as log no-undo public get. public set.
   
   /**
+   * Output the Group
+   */
+  method public override longchar Output():
+    return OutputOpen() + OutputCommands() + " " + OutputParts() + OutputClose().
+  end method.
+  
+  /**
    * Output the RTF commands
    */
-  method protected override character OutputCommands():
+  method protected character OutputCommands():
     def var outText as char init "" no-undo.
     
     if ResetFormatting then assign
-      outText = outText + "\plain ".
+      outText = outText + "\plain".
     if FontId >= 0 then assign
-      outText = outText + "\f" + string(FontId) + " ".
+      outText = outText + "\f" + string(FontId).
     if FontSize > 0 then assign
-      outText = outText + "\fs" + string(truncate(FontSize * 2, 0)) + " ".
+      outText = outText + "\fs" + string(truncate(FontSize * 2, 0)).
     if FontColor >= 0 then assign
-      outText = outText + "\cf" + string(FontColor) + " ".
+      outText = outText + "\cf" + string(FontColor).
     if Italics then assign
-      outText = outText + "\i ".
+      outText = outText + "\i".
     if Bold then assign
-      outText = outText + "\b ".
+      outText = outText + "\b".
     if Underlined then assign
-      outText = outText + "\ul ".
+      outText = outText + "\ul".
     if Superccript then assign
-      outText = outText + "\super ".
+      outText = outText + "\super".
     if Subscript then assign
-      outText = outText + "\sub ".
+      outText = outText + "\sub".
     if Smallcaps then assign
-      outText = outText + "\scaps ".
+      outText = outText + "\scaps".
     if Strikethrough then assign
-      outText = outText + "\strike ".
+      outText = outText + "\strike".
     
     return outText.
+  end method.
+  
+  /**
+   * Output the open text
+   */
+  method protected override character OutputOpen():
+    return "~{".
+  end method.
+  
+  /**
+   * Output the close text
+   */
+  method protected override character OutputClose():
+    return "}".
   end method.
 
 end class.

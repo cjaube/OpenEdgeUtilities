@@ -15,7 +15,7 @@ using OpenEdge.Core.Collections.*.
 
 block-level on error undo, throw.
 
-class RTFWriter.RTFDocument inherits RTFBaseGroup: 
+class RTFWriter.RTFDocument inherits RTFContainer: 
   /** The document character set. */
   define public property CharacterSet as char init "ansi" no-undo public get. public set.
   /** The document language code. Defaulted to U.S. English. */
@@ -156,19 +156,19 @@ class RTFWriter.RTFDocument inherits RTFBaseGroup:
     def var i as int no-undo.
     def var clr as Color no-undo.
     
-    outText = "\deflang" + LanguageCode + " \plain \fs" + string(DefaultFontSize * 2) + " ".
+    outText = "\deflang" + LanguageCode + "\plain\fs" + string(DefaultFontSize * 2).
     if WidowAndOrphansControl then
-      outText = outText + "\widowctrl ".
+      outText = outText + "\widowctrl".
     if AutomaticHyphenation then
-      outText = outText + "\hyphauto ".
+      outText = outText + "\hyphauto".
     if MarginTop <> 72 then
-      outText = outText + "\margt" + RTFDocument:PointsToTwips(MarginTop) + " ".
+      outText = outText + "\margt" + RTFDocument:PointsToTwips(MarginTop).
     if MarginBottom <> 72 then
-      outText = outText + "\margb" + RTFDocument:PointsToTwips(MarginBottom) + " ".
+      outText = outText + "\margb" + RTFDocument:PointsToTwips(MarginBottom).
     if MarginLeft <> 80 then
-      outText = outText + "\margl" + RTFDocument:PointsToTwips(MarginLeft) + " ".
+      outText = outText + "\margl" + RTFDocument:PointsToTwips(MarginLeft).
     if MarginRight <> 80 then
-      outText = outText + "\margr" + RTFDocument:PointsToTwips(MarginRight) + " ".
+      outText = outText + "\margr" + RTFDocument:PointsToTwips(MarginRight).
     outText = outText + "~n".
     
     return outText.

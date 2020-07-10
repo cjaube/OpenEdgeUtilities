@@ -42,26 +42,26 @@ class RTFWriter.RTFParagraph inherits RTFGroup:
         undo, throw new Progress.Lang.AppError("Invalid value for TextAlign. Must be 'left', 'right', 'center', or 'justify'.", 0).
       case TextAlign:
         when "left" then
-          outText = outText + "\ql ".
+          outText = outText + "\ql".
         when "right" then
-          outText = outText + "\qr ".
+          outText = outText + "\qr".
         when "center" then
-          outText = outText + "\qc ".
+          outText = outText + "\qc".
         when "justify" then
-          outText = outText + "\qj ".
+          outText = outText + "\qj".
       end.
     end.
     if SpaceBefore > 0 then
-      outText = outText + "\sb" + RTFDocument:PointsToTwips(SpaceBefore) + " ".
+      outText = outText + "\sb" + RTFDocument:PointsToTwips(SpaceBefore).
     if SpaceAfter > 0 then
-      outText = outText + "\sa" + RTFDocument:PointsToTwips(SpaceAfter) + " ".
+      outText = outText + "\sa" + RTFDocument:PointsToTwips(SpaceAfter).
     if Indent > 0 then
-      outText = outText + "\fi" + RTFDocument:PointsToTwips(Indent) + " ".
+      outText = outText + "\fi" + RTFDocument:PointsToTwips(Indent).
     if IndentBlock > 0 then
-      outText = outText + "\li" + RTFDocument:PointsToTwips(IndentBlock) + " ".
+      outText = outText + "\li" + RTFDocument:PointsToTwips(IndentBlock).
     if IndentBlockRight > 0 then
-      outText = outText + "\ri" + RTFDocument:PointsToTwips(IndentBlockRight) + " ".
-      
+      outText = outText + "\ri" + RTFDocument:PointsToTwips(IndentBlockRight).
+
     return outText.
   end method.
   
@@ -69,14 +69,14 @@ class RTFWriter.RTFParagraph inherits RTFGroup:
    * Output the open text
    */
   method protected override character OutputOpen():
-    return "~{\pard ".
+    return "~{\pard".
   end method.
   
   /**
    * Output the close text
    */
   method protected override character OutputClose():
-    return " \par}~n".
+    return "\par}~n".
   end method.
 
 end class.
