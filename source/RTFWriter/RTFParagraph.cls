@@ -38,6 +38,8 @@ class RTFWriter.RTFParagraph inherits RTFGroup:
     outText = super:OutputCommands().
     
     if TextAlign <> "" then do:
+      if lookup(TextAlign, "left,right,center,justify") = 0 then
+        undo, throw new Progress.Lang.AppError("Invalid value for TextAlign. Must be 'left', 'right', 'center', or 'justify'.", 0).
       case TextAlign:
         when "left" then
           outText = outText + "\ql ".

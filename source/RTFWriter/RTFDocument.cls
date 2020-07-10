@@ -174,6 +174,10 @@ class RTFWriter.RTFDocument inherits RTFBaseGroup:
     return outText.
   end method.
   
+  /**
+   * Purpose: Convert points to a twips character string.
+   * @return the twips character string.
+   */
   method public static char PointsToTwips(points as decimal):
     return string(truncate(points * 20, 0)).
   end method.
