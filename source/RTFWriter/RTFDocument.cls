@@ -65,6 +65,10 @@ class RTFWriter.RTFDocument inherits RTFContainer:
     return num-entries(Colors) + 1. // Account for the default color
   end method.
   
+  /**
+   * Purpose: Save the rtf to a file
+   * @param rtfFilename The rtf file name
+   */
   method public void SaveToFile(rtfFilename as char):
     output stream exp to value(rtfFilename).
     put stream exp unformatted string(this-object:Output()).
