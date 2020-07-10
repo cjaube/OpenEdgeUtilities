@@ -61,6 +61,19 @@ class RTFWriter.RTFContainer abstract implements IRTFDocumentPart:
   end method.
   
   /**
+   * Purpose: Add a Hyperlink to this Document Part
+   * @return the new Group
+   */
+  method public RTFHyperlink AddHyperlink():
+    def var link as RTFHyperlink no-undo.
+    
+    link = new RTFHyperlink().
+    DocumentParts:Add(link).
+    
+    return link.
+  end method.
+  
+  /**
    * Purpose: Add a Row to this Document Part
    * @return the new Row
    */
