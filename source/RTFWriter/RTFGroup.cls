@@ -1,6 +1,6 @@
  
  /*------------------------------------------------------------------------
-    File        : Group
+    File        : RTFGroup
     Purpose     : 
     Syntax      : 
     Description : 
@@ -15,7 +15,7 @@ using OpenEdge.Core.Collections.*.
 
 block-level on error undo, throw.
 
-class RTFWriter.Group inherits BaseGroup: 
+class RTFWriter.RTFGroup inherits RTFBaseGroup: 
   
   /** Reset any formatting to defaults */
   define public property ResetFormatting as log no-undo public get. public set.
@@ -33,10 +33,6 @@ class RTFWriter.Group inherits BaseGroup:
   define public property Subscript as log no-undo public get. public set.
   define public property Smallcaps as log no-undo public get. public set.
   define public property Strikethrough as log no-undo public get. public set.
-
-  constructor public Group():
-    super().
-  end constructor.
   
   /**
    * Output the RTF commands

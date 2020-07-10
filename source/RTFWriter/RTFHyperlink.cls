@@ -1,6 +1,6 @@
  
  /*------------------------------------------------------------------------
-    File        : Hyperlink
+    File        : RTFHyperlink
     Purpose     : 
     Syntax      : 
     Description : 
@@ -14,14 +14,10 @@ using RTFWriter.*.
 
 block-level on error undo, throw.
 
-class RTFWriter.Hyperlink inherits Group: 
+class RTFWriter.RTFHyperlink inherits RTFGroup: 
 
   /** The url to use */
   define public property UrlText as char no-undo public get. public set.
-
-  constructor public Hyperlink():
-    super().
-  end constructor.
   
   /**
    * Output the open text

@@ -19,9 +19,9 @@ class TestRTFWriter:
   
   @Test.
   method public void Test_Document_Blank():
-    def var doc as Document no-undo.
+    def var doc as RTFDocument no-undo.
     
-    doc = new Document().
+    doc = new RTFDocument().
     doc:AddFont('Times').
     
     Assert:Equals("~{\rtf1\ansi\deff0", substring (doc:Output(), 1, 17)). 
@@ -38,20 +38,20 @@ class TestRTFWriter:
   
   @Test.
   method public void Test_Paragraph_Output():
-    def var par as Paragraph no-undo.
+    def var par as RTFParagraph no-undo.
     
-    par = new Paragraph().
+    par = new RTFParagraph().
     par:AddText("This is a test").
     
     Assert:Equals("~{\pard This is a test \par}~n", par:Output()). 
   end method.
   
   @Test.
-  method public void Test_Paragraph_Formatted():
-    def var par as Paragraph no-undo.
-    def var grp as Group no-undo.
+  method public void Test_Group_Formatted():
+    def var par as RTFParagraph no-undo.
+    def var grp as RTFGroup no-undo.
     
-    par = new Paragraph().
+    par = new RTFParagraph().
     par:AddText("This is ").
     grp = par:AddGroup().
     grp:Italics = true.
@@ -64,6 +64,26 @@ class TestRTFWriter:
     
     
     Assert:Equals("~{\pard This is ~{\i a} ~{\b test}. \par}~n", par:Output()). 
+  end method.
+  
+  @Test.
+  method public void Test_Row_Output():
+    def var rw as RTFRow no-undo.
+    def var cel as RTFCell no-undo.
+    def var c as char no-undo.
+    
+    rw = new RTFRow().
+    rw:XOffset = 72.
+    rw:CellMargins = 12.
+    cel = rw:AddCell().
+    cel:Bold = yes.
+    cel:AddText("Description").
+    cel:Width = 144.
+    cel = rw:AddCell().
+    cel:Bold = yes.
+    cel:AddText("Price").
+    
+    Assert:Equals("\trowd \trgaph240~n\trleft1440 \cellx4320 \cellx5760 ~n\pard\intbl ~{\b Description}\cell~n\pard\intbl ~{\b Price}\cell~n\row~n", rw:Output()). 
   end method.
     
 end class.

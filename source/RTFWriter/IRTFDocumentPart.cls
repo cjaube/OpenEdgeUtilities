@@ -1,6 +1,6 @@
 
 /*------------------------------------------------------------------------
-    File        : RTFPart
+    File        : RTFDocumentPart
     Purpose     : 
     Syntax      : 
     Description : 
@@ -11,6 +11,6 @@
 
 using Progress.Lang.*.
 
-interface RTFWriter.IDocumentPart:  
+interface RTFWriter.IRTFDocumentPart:  
   method public longchar Output().
 end interface.

@@ -1,6 +1,6 @@
 
 /*------------------------------------------------------------------------
-    File        : BaseGroup
+    File        : RTFBaseGroup
     Purpose     : 
     Syntax      : 
     Description : 
@@ -13,11 +13,11 @@ using Progress.Lang.*.
 using RTFWriter.*.
 using OpenEdge.Core.Collections.*.
 
-class RTFWriter.BaseGroup abstract implements IDocumentPart:  
+class RTFWriter.RTFBaseGroup abstract implements IRTFDocumentPart:  
   
   def var DocumentParts as List no-undo.
 
-  constructor public BaseGroup():
+  constructor public RTFBaseGroup():
     DocumentParts = new List().
   end constructor.
   
@@ -25,10 +25,10 @@ class RTFWriter.BaseGroup abstract implements IDocumentPart:
    * Purpose: Add a new paragraph to the document
    * @return the newly created pargarph
    */
-  method public Paragraph AddParagraph():
-    def var par as Paragraph no-undo.
+  method public RTFParagraph AddParagraph():
+    def var par as RTFParagraph no-undo.
     
-    par = new Paragraph().
+    par = new RTFParagraph().
     DocumentParts:Add(par).
     
     return par.
@@ -38,10 +38,10 @@ class RTFWriter.BaseGroup abstract implements IDocumentPart:
    * Purpose: Add Text to this Document Part
    * @return the new Text
    */
-  method public Text AddText(content as char):
-    def var txt as Text no-undo.
+  method public RTFText AddText(content as char):
+    def var txt as RTFText no-undo.
     
-    txt = new Text(content).
+    txt = new RTFText(content).
     DocumentParts:Add(txt).
     
     return txt.
@@ -51,13 +51,26 @@ class RTFWriter.BaseGroup abstract implements IDocumentPart:
    * Purpose: Add a Group to this Document Part
    * @return the new Group
    */
-  method public Group AddGroup():
-    def var grp as Group no-undo.
+  method public RTFGroup AddGroup():
+    def var grp as RTFGroup no-undo.
     
-    grp = new Group().
+    grp = new RTFGroup().
     DocumentParts:Add(grp).
     
     return grp.
+  end method.
+  
+  /**
+   * Purpose: Add a Row to this Document Part
+   * @return the new Row
+   */
+  method public RTFRow AddRow():
+    def var rw as RTFRow no-undo.
+    
+    rw = new RTFRow().
+    DocumentParts:Add(rw).
+    
+    return rw.
   end method.
 
   /**
@@ -80,11 +93,11 @@ class RTFWriter.BaseGroup abstract implements IDocumentPart:
   method protected longchar OutputParts():
     def var outText as char no-undo.
     def var partsIterator as IIterator no-undo.
-    def var part as IDocumentPart no-undo.
+    def var part as IRTFDocumentPart no-undo.
 
     partsIterator = DocumentParts:Iterator().
     do while partsIterator:HasNext():
-      part = cast(partsIterator:Next(), IDocumentPart).
+      part = cast(partsIterator:Next(), IRTFDocumentPart).
       outText = outText + part:Output().
     end.
 

@@ -15,7 +15,7 @@ using OpenEdge.Core.Collections.*.
 
 block-level on error undo, throw.
 
-class RTFWriter.Document inherits BaseGroup: 
+class RTFWriter.RTFDocument inherits RTFBaseGroup: 
   /** The document character set. */
   define public property CharacterSet as char init "ansi" no-undo public get. public set.
   /** The document language code. Defaulted to U.S. English. */
@@ -29,21 +29,17 @@ class RTFWriter.Document inherits BaseGroup:
   /** Automatically add hyphens. */
   define public property AutomaticHyphenation as log init no no-undo public get. public set.
   /** The top page margin in points */
-  define public property MarginTop as int init 72 no-undo public get. public set.
+  define public property MarginTop as dec init 72 no-undo public get. public set.
   /** The bottom page margin in points */
-  define public property MarginBottom as int init 72 no-undo public get. public set.
+  define public property MarginBottom as dec init 72 no-undo public get. public set.
   /** The top page margin in points */
-  define public property MarginLeft as int init 90 no-undo public get. public set.
+  define public property MarginLeft as dec init 90 no-undo public get. public set.
   /** The top page margin in points */
-  define public property MarginRight as int init 90 no-undo public get. public set.
+  define public property MarginRight as dec init 90 no-undo public get. public set.
   
   def var Fonts as char no-undo.
   def var Colors as char no-undo.
   def stream exp.
-  
-  constructor public Document():
-    super().
-  end constructor.
 
   /**
    * Purpose: Add a font to the document's font table
@@ -166,15 +162,19 @@ class RTFWriter.Document inherits BaseGroup:
     if AutomaticHyphenation then
       outText = outText + "\hyphauto ".
     if MarginTop <> 72 then
-      outText = outText + "\margt" + string(MarginTop * 20) + " ".
+      outText = outText + "\margt" + RTFDocument:PointsToTwips(MarginTop) + " ".
     if MarginBottom <> 72 then
-      outText = outText + "\margb" + string(MarginBottom * 20) + " ".
+      outText = outText + "\margb" + RTFDocument:PointsToTwips(MarginBottom) + " ".
     if MarginLeft <> 80 then
-      outText = outText + "\margl" + string(MarginLeft * 20) + " ".
+      outText = outText + "\margl" + RTFDocument:PointsToTwips(MarginLeft) + " ".
     if MarginRight <> 80 then
-      outText = outText + "\margr" + string(MarginRight * 20) + " ".
+      outText = outText + "\margr" + RTFDocument:PointsToTwips(MarginRight) + " ".
     outText = outText + "~n".
     
     return outText.
+  end method.
+  
+  method public static char PointsToTwips(points as decimal):
+    return string(truncate(points * 20, 0)).
   end method.
 end class.

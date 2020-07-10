@@ -10,15 +10,15 @@
   ----------------------------------------------------------------------*/
 
 using Progress.Lang.*.
-using RTFWriter.IDocumentPart.
+using RTFWriter.IRTFDocumentPart.
 
 block-level on error undo, throw.
 
-class RTFWriter.Text implements IDocumentPart: 
+class RTFWriter.RTFText implements IRTFDocumentPart: 
   
   define public property Content as longchar no-undo public get. public set.
   
-  constructor public Text(content as longchar):
+  constructor public RTFText(content as longchar):
     this-object:Content = content.
   end constructor.
 

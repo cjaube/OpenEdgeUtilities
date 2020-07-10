@@ -1,6 +1,6 @@
  
  /*------------------------------------------------------------------------
-    File        : Paragraph
+    File        : RTFParagraph
     Purpose     : 
     Syntax      : 
     Description : 
@@ -14,7 +14,7 @@ using RTFWriter.*.
 
 block-level on error undo, throw.
 
-class RTFWriter.Paragraph inherits Group: 
+class RTFWriter.RTFParagraph inherits RTFGroup: 
 
   /** Align the text: left, right, center, or justify */
   define public property TextAlign as char init "" no-undo public get. public set.
@@ -28,10 +28,6 @@ class RTFWriter.Paragraph inherits Group:
   define public property IndentBlock as int no-undo public get. public set.
   /** Indent the whole paragraph on the right measured in points */
   define public property IndentBlockRight as int no-undo public get. public set.
-
-  constructor public Paragraph():
-    super().
-  end constructor.
   
   /**
    * Output the RTF commands
@@ -54,15 +50,15 @@ class RTFWriter.Paragraph inherits Group:
       end.
     end.
     if SpaceBefore > 0 then
-      outText = outText + "\sb" + string(SpaceBefore * 20) + " ".
+      outText = outText + "\sb" + RTFDocument:PointsToTwips(SpaceBefore) + " ".
     if SpaceAfter > 0 then
-      outText = outText + "\sa" + string(SpaceAfter * 20) + " ".
+      outText = outText + "\sa" + RTFDocument:PointsToTwips(SpaceAfter) + " ".
     if Indent > 0 then
-      outText = outText + "\fi" + string(Indent * 20) + " ".
+      outText = outText + "\fi" + RTFDocument:PointsToTwips(Indent) + " ".
     if IndentBlock > 0 then
-      outText = outText + "\li" + string(IndentBlock * 20) + " ".
+      outText = outText + "\li" + RTFDocument:PointsToTwips(IndentBlock) + " ".
     if IndentBlockRight > 0 then
-      outText = outText + "\ri" + string(IndentBlockRight * 20) + " ".
+      outText = outText + "\ri" + RTFDocument:PointsToTwips(IndentBlockRight) + " ".
       
     return outText.
   end method.
