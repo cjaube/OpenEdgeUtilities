@@ -26,6 +26,8 @@ class RTFWriter.RTFCell inherits RTFGroup:
   define public property BorderStyle as char init "" no-undo public get. public set.
   /** The cell border thickness measured in points. */
   define public property BorderThickness as decimal init 1 no-undo public get. public set.
+  /** The cell border color id. */
+  define public property BorderColorId as int init -1 no-undo public get. public set.
 
   /**
    * Output the cell declaration
@@ -50,6 +52,8 @@ class RTFWriter.RTFCell inherits RTFGroup:
             when "double" then
               outText = outText + '\brdrdb'.
           end case.
+          if BorderColorId >= 0 then
+           outText = outText + '\brdrcf' + string(BorderColorId).
         end.
       end.
     end.

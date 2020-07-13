@@ -50,7 +50,7 @@ class RTFWriter.RTFDocument inherits RTFContainer:
     if name = "" then return -1.
     if num-entries(Fonts) > 0 then Fonts = Fonts + ",".
     Fonts = Fonts + name.
-    return num-entries(Fonts).
+    return num-entries(Fonts) - 1.
   end method.
   
   /**
@@ -62,7 +62,7 @@ class RTFWriter.RTFDocument inherits RTFContainer:
     if colorValue = "" then return -1.
     if num-entries(Colors) > 0 then Colors = Colors + ",".
     Colors = Colors + colorValue.
-    return num-entries(Colors) + 1. // Account for the default color
+    return num-entries(Colors). // Account for the default color
   end method.
   
   /**
