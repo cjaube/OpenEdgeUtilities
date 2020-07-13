@@ -70,7 +70,18 @@ class RTFWriter.RTFDocument inherits RTFContainer:
    * @param rtfFilename The rtf file name
    */
   method public void SaveToFile(rtfFilename as char):
-    output stream exp to value(rtfFilename).
+    output stream exp to value(rtfFilename) convert target "1252".
+    put stream exp unformatted string(this-object:Output()).
+    output stream exp close.
+  end.
+  
+  /**
+   * Purpose: Save the rtf to a file
+   * @param rtfFilename The rtf file name
+   * @param sourceCodepage The source codepage to convert from. If the codepage is incorrect, non-ascii characters will display as question marks.
+   */
+  method public void SaveToFile(rtfFilename as char, sourceCodepage as char):
+    output stream exp to value(rtfFilename) convert source sourceCodepage target "1252".
     put stream exp unformatted string(this-object:Output()).
     output stream exp close.
   end.

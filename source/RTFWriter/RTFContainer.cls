@@ -36,12 +36,28 @@ class RTFWriter.RTFContainer abstract implements IRTFDocumentPart:
   
   /**
    * Purpose: Add Text to this Document Part
+   * @param content The text content to add
    * @return the new Text
    */
   method public RTFText AddText(content as char):
     def var txt as RTFText no-undo.
     
     txt = new RTFText(content).
+    DocumentParts:Add(txt).
+    
+    return txt.
+  end method.
+  
+  /**
+   * Purpose: Add Text to this Document Part
+   * @param content The text content to add
+   * @sourceCodepage the codepage of the source text content
+   * @return the new Text
+   */
+  method public RTFText AddText(content as char, sourceCodepage as char):
+    def var txt as RTFText no-undo.
+    
+    txt = new RTFText(content, sourceCodepage).
     DocumentParts:Add(txt).
     
     return txt.
@@ -89,7 +105,7 @@ class RTFWriter.RTFContainer abstract implements IRTFDocumentPart:
   /**
    * Output the Container
    */
-  method public longchar Output(  ):
+  method public longchar Output():
     return OutputOpen() + OutputParts() + OutputClose().
   end method.
   

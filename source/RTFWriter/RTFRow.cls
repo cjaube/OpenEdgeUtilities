@@ -44,7 +44,7 @@ class RTFWriter.RTFRow implements IRTFDocumentPart:
   /**
    * Output the Row
    */
-  method public longchar Output(  ):
+  method public longchar Output():
     def var outText as char init "" no-undo.
     def var cellIterator as IIterator no-undo.
     def var cell as RTFCell no-undo.
