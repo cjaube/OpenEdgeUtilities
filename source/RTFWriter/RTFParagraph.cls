@@ -69,7 +69,7 @@ class RTFWriter.RTFParagraph inherits RTFGroup:
    * Output the open text
    */
   method protected override character OutputOpen():
-    return "~{\pard".
+    return "~{\pard ".
   end method.
   
   /**

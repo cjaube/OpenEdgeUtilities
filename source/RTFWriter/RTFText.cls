@@ -48,7 +48,7 @@ class RTFWriter.RTFText implements IRTFDocumentPart:
         assign
           singleChar = substring(Content,i,1)
           unicodeValue = asc(singleChar, "utf-16", sourceCodepage).
-        if lookup(singleChar, "~{}\") <> 0 then assign
+        if lookup(singleChar, "~{,},\") <> 0 then assign
           outText = outText + "\" + singleChar.
         else if unicodeValue > 127 then assign
           outText = outText + "\uc0\u" + string(unicodeValue) + " ".

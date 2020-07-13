@@ -38,7 +38,13 @@ class RTFWriter.RTFGroup inherits RTFContainer:
    * Output the Group
    */
   method public override longchar Output():
-    return OutputOpen() + OutputCommands() + " " + OutputParts() + OutputClose().
+    def var commands as char no-undo.
+    
+    commands = OutputCommands().
+    if commands <> "" then
+      commands = commands + " ".
+    
+    return OutputOpen() + commands + OutputParts() + OutputClose().
   end method.
   
   /**

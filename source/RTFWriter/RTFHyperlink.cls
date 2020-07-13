@@ -30,7 +30,7 @@ class RTFWriter.RTFHyperlink inherits RTFGroup:
    * Output the close text
    */
   method protected override character OutputClose():
-    return " }}}~n".
+    return "}}}".
   end method.
 
 end class.
