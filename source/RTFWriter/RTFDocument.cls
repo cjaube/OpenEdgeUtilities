@@ -12,6 +12,7 @@
 using Progress.Lang.*.
 using RTFWriter.*.
 using OpenEdge.Core.Collections.*.
+using DocumentWriter.*.
 
 block-level on error undo, throw.
 
@@ -70,9 +71,7 @@ class RTFWriter.RTFDocument inherits RTFContainer:
    * @param rtfFilename The rtf file name
    */
   method public void SaveToFile(rtfFilename as char):
-    output stream exp to value(rtfFilename) convert target "1252".
-    put stream exp unformatted string(this-object:Output()).
-    output stream exp close.
+    DocumentWriter:SaveToFile(this-object:Output(), rtfFilename, "1252").
   end.
   
   /**
@@ -81,9 +80,7 @@ class RTFWriter.RTFDocument inherits RTFContainer:
    * @param sourceCodepage The source codepage to convert from. If the codepage is incorrect, non-ascii characters will display as question marks.
    */
   method public void SaveToFile(rtfFilename as char, sourceCodepage as char):
-    output stream exp to value(rtfFilename) convert source sourceCodepage target "1252".
-    put stream exp unformatted string(this-object:Output()).
-    output stream exp close.
+    DocumentWriter:SaveToFile(this-object:Output(), rtfFilename, sourceCodepage, "1252").
   end.
   
   /**

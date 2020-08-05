@@ -106,14 +106,18 @@ class RTFWriter.RTFContainer abstract implements IRTFDocumentPart:
    * Output the Container
    */
   method public longchar Output():
-    return OutputOpen() + OutputParts() + OutputClose().
+    def var outText as longchar no-undo.
+    
+    outText = OutputOpen() + OutputParts() + OutputClose().
+    
+    return outText.
   end method.
   
   /**
    * Output the parts withing this group
    */
   method protected longchar OutputParts():
-    def var outText as char no-undo.
+    def var outText as longchar no-undo.
     def var partsIterator as IIterator no-undo.
     def var part as IRTFDocumentPart no-undo.
 
