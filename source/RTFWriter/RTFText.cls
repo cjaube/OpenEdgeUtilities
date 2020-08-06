@@ -41,6 +41,7 @@ class RTFWriter.RTFText implements IRTFDocumentPart:
       outText = replace(outText, "\", "\\").
       outText = replace(outText, "~{", "\~{").
       outText = replace(outText, "}", "\}").
+      outText = replace(outText, "~n", "\line ").
     end.
     else do:
       // If we have a sourceCodepage then we can translate non-ascii characters to their unicode representations
@@ -50,6 +51,8 @@ class RTFWriter.RTFText implements IRTFDocumentPart:
           unicodeValue = asc(singleChar, "utf-16", sourceCodepage).
         if lookup(singleChar, "~{,},\") <> 0 then assign
           outText = outText + "\" + singleChar.
+        else if singleChar = "~n" then assign
+          outText = outText + "\line ".
         else if unicodeValue > 127 then assign
           outText = outText + "\uc0\u" + string(unicodeValue) + " ".
         else assign
