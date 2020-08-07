@@ -24,6 +24,8 @@ class RTFWriter.RTFCell inherits RTFGroup:
   define public property HorizontalAlign as char init "" no-undo public get. public set.
   /** The cell border style: 'solid', 'dotted', 'dashed', or 'double'. */
   define public property BorderStyle as char init "" no-undo public get. public set.
+  /** The cell border sides: A list of 't', 'l', 'b', or 'r'. */
+  define public property BorderSides as char init "t,l,b,r" no-undo public get. public set.
   /** The cell border thickness measured in points. */
   define public property BorderThickness as decimal init 1 no-undo public get. public set.
   /** The cell border color id. */
@@ -38,9 +40,13 @@ class RTFWriter.RTFCell inherits RTFGroup:
     if BorderStyle <> "" and BorderThickness > 0 then do:
       if lookup(BorderStyle, "solid,dotted,dashed,double") = 0 then
         undo, throw new Progress.Lang.AppError("Invalid value for BorderStyle. Must be 'solid', 'dotted', 'dashed', or 'double'.", 0).
+      else if BorderSides = "" or BorderSides = ? then
+        undo, throw new Progress.Lang.AppError("Invalid value for BorderSides. Must be a list of 't', 'l', 'b', or 'r'.", 0).
       else do:
-        do i = 1 to 4:
-          outText = outText + "\clbrdr" + entry(i, "t,l,b,r").
+        do i = 1 to num-entries(BorderSides):
+          if lookup(entry(i, BorderSides), "t,l,b,r") = 0 then
+            undo, throw new Progress.Lang.AppError("Invalid value for BorderSides. Must be a list of 't', 'l', 'b', or 'r'.", 0).
+          outText = outText + "\clbrdr" + entry(i, BorderSides).
           outText = outText + "\brdrw" + RTFDocument:PointsToTwips(BorderThickness).
           case BorderStyle:
             when "solid" then
@@ -99,7 +105,7 @@ class RTFWriter.RTFCell inherits RTFGroup:
    * Output the close text
    */
   method protected override character OutputClose():
-    return "}\cell~n".
+    return "\cell}~n". // Closing the group after the end of the cell ensures that the font styles are not discarded for empty cells
   end method.
 
 end class.

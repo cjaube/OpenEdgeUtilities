@@ -11,6 +11,7 @@
 
 using Progress.Lang.*.
 using OpenEdge.Core.Assert.
+using OpenEdge.Core.Assertion.*.
 using RTFWriter.*.
 
 block-level on error undo, throw.
@@ -104,7 +105,6 @@ class TestRTFWriter:
   method public void Test_Row_Output():
     def var rw as RTFRow no-undo.
     def var cel as RTFCell no-undo.
-    def var c as char no-undo.
     
     rw = new RTFRow().
     rw:XOffset = 72.
@@ -117,7 +117,61 @@ class TestRTFWriter:
     cel:Bold = yes.
     cel:AddText("Price").
     
-    Assert:Equals("\trowd\trgaph240\trleft1440~n\cellx4320~n\cellx5760~n\pard\intbl ~{\b Description}\cell~n\pard\intbl ~{\b Price}\cell~n\row~n", rw:Output()). 
+    Assert:Equals("\trowd\trgaph240\trleft1440~n\cellx4320~n\cellx5760~n\pard\intbl ~{\b Description\cell}~n\pard\intbl ~{\b Price\cell}~n\row~n", rw:Output()). 
+  end method.
+  
+  @Test.
+  method public void Test_Row_Borders():
+    def var rw as RTFRow no-undo.
+    def var cel as RTFCell no-undo.
+    
+    rw = new RTFRow().
+    cel = rw:AddCell().
+    cel:BorderStyle = "Solid".
+    cel:BorderSides = "b".
+    cel:AddText("Description").
+    
+    Assert:Equals("\trowd\trgaph0~n\clbrdrb\brdrw20\brdrs\cellx1440~n\pard\intbl ~{Description\cell}~n\row~n", rw:Output()). 
+  end method.
+  
+  @Test.
+  method public void Test_Row_IncorrectBorderStyle():
+    def var rw as RTFRow no-undo.
+    def var cel as RTFCell no-undo.
+    
+    rw = new RTFRow().
+    cel = rw:AddCell().
+    cel:BorderStyle = "Nothing!".
+    rw:Output() no-error.
+    AssertError:HasErrorStatus().
+  end method.
+  
+  @Test.
+  method public void Test_Row_EmptyBorderSides():
+    def var rw as RTFRow no-undo.
+    def var cel as RTFCell no-undo.
+    
+    rw = new RTFRow().
+    cel = rw:AddCell().
+    cel:BorderStyle = "Solid".
+    
+    cel:BorderSides = "".
+    rw:Output() no-error.
+    AssertError:HasErrorStatus().
+  end method.
+  
+  @Test.
+  method public void Test_Row_IncorrectBorderSides():
+    def var rw as RTFRow no-undo.
+    def var cel as RTFCell no-undo.
+    
+    rw = new RTFRow().
+    cel = rw:AddCell().
+    cel:BorderStyle = "Solid".
+
+    cel:BorderSides = "a,b,c".
+    rw:Output() no-error.
+    AssertError:HasErrorStatus().
   end method.
   
   @Test.
